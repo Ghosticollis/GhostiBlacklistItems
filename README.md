@@ -14,7 +14,7 @@ compile the cs files as a .Net framework class library (more info you could sear
 
 after you compile the module you will get a file called GhostiBlacklistItems.dll
 
-put the the dll file inside the folder GhostiBlacklistItems
+put the dll file inside the folder GhostiBlacklistItems
 
 copy the folder GhostiBlacklistItems to your Unturned server folder and put it under the folder "Modules"
 
