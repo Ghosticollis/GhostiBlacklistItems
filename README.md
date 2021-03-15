@@ -2,6 +2,7 @@
 Unturned blacklist items spawn
 
 this module will prevent blacklisted items from spawning in your server.
+for example, you could prevent Stealy Wheely from spawning, prevent raid gear or prevent stuff like drugs, alcohol ... etc
 
 please note:
 this is a module, not a rocket mod plugin
@@ -15,3 +16,7 @@ copy the folder GhostiBlacklistItems to your Unturned server folder and put it u
 
 how to use:
 add items id to the config file (/Module/GhostiBlacklistItems/config.txt)
+and that's it
+
+Greatings
+Ghosticollis @ SOD servers discord
