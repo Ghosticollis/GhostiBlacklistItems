@@ -1,11 +1,17 @@
 # GhostiBlacklistItems
 Unturned blacklist items spawn
+
 this module will prevent blacklisted items from spawning in your server.
 
+please note:
+this is a module, not a rocket mod plugin
+it is the same idea, but this run on any server, even if it doesn't have rocket mod
+
 how to setup:
-compile the module
+compile the cs files as a .Net framework shared library
+after you compile the module you will get a file called GhostiBlacklistItems.dll
 put the the dll file inside the folder GhostiBlacklistItems
 copy the folder GhostiBlacklistItems to your Unturned server folder and put it under the folder "Modules"
 
 how to use:
-add item id to the config file
+add items id to the config file (/Module/GhostiBlacklistItems/config.txt)
