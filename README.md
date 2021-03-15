@@ -9,6 +9,7 @@ this is a module, not a rocket mod plugin
 it is the same idea, but this run on any server, even if it doesn't have rocket mod
 
 how to setup:
+
 compile the cs files as a .Net framework shared library
 
 after you compile the module you will get a file called GhostiBlacklistItems.dll
