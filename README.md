@@ -19,4 +19,5 @@ add items id to the config file (/Module/GhostiBlacklistItems/config.txt)
 and that's it
 
 Greatings
+
 Ghosticollis @ SOD servers discord
