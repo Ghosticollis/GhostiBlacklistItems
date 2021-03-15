@@ -10,7 +10,7 @@ it is the same idea, but this run on any server, even if it doesn't have rocket 
 
 how to setup:
 
-compile the cs files as a .Net framework shared library
+compile the cs files as a .Net framework class library (more info you could search tutorials how to create Unturned Module)
 
 after you compile the module you will get a file called GhostiBlacklistItems.dll
 
