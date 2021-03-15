@@ -16,7 +16,7 @@ copy the folder GhostiBlacklistItems to your Unturned server folder and put it u
 
 how to use:
 add items id to the config file (/Module/GhostiBlacklistItems/config.txt)
-and that's it
+and that's it.
 
 Greatings
 Ghosticollis @ SOD servers discord
