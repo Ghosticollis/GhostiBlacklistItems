@@ -1,0 +1,4 @@
+# add data here in the following way:- items blacklisted from spawning: 10, 17, 122
+# lines start with the sign # gonna be ignored
+
+items blacklisted from spawning: 0
