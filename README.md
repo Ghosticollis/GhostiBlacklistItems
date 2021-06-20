@@ -25,6 +25,31 @@ copy the folder `GhostiBlacklistItems` to your Unturned server folder and put it
 add items id to the config file `/Module/GhostiBlacklistItems/config.txt`
 and that's it
 
+
+# extra:
+this module has extra features that could be very helpful for map designers. (if you are not map designer you could ignore this section)
+you could add this module to your local server that running your map, then you could use the following commands from console:
+```
+scan for item [item_id]
+recursive scan for item [item_id]
+scan for table [table_id]
+print vehicle spawn tables
+scan for empty tables
+print spawn table items [table_id]
+```
+scan for item [item_id] - this command will print to you spawn tables that spawn the specified item
+example to show the difference between normal and recursive:
+let mili_ST be a spawn table that only contains mili_clothes spawn table, and mili_guns spawn table.
+if u search specific gun using first command you will get: mili_guns
+but if u use second command (recursive search) you will get: mili_ST and mili_guns
+
+scan for table [table_id] - this command is very useful if you encounter error similar to
+`Unable to find spawn table for resolve with id 5250`
+if you use command "scan for table 5250" you will get where you misinput the values
+for example in this case it was "Fishing zombie", so simply you go to Fishing zombie, and re-enter ID of valid spawn table.
+
+please note: when you planning to use this commands it is recomended to set "enable filtering" to "false" at the module config file
+
 Greetings
 
 Ghosticollis @ SOD servers discord
