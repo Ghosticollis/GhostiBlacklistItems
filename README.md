@@ -47,7 +47,7 @@ but if u use second command (recursive search) you will get: mili_ST and mili_gu
 
 scan for table [table_id] - this command is very useful if you encounter error similar to
 `Unable to find spawn table for resolve with id 5250`
-if you use command "scan for table 5250" you will get where you misinput the values
+if you use command "scan for table 5250" you will get where you misinput the values,
 for example in this case it was "Fishing zombie", so simply you go to Fishing zombie, and re-enter ID of valid spawn table.
 
 
