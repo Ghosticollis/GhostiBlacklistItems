@@ -46,6 +46,16 @@ namespace GhostiBlacklistItems
                         Main.spawn_blacklisted_items.Add(id);
                     }
                 }
+            } else if (option == "enable filtering") {
+                Main.bEnableFiltering = (data == "true");
+            } else if (option == "vehicles blacklisted from spawning") {
+                var item_ids = data.Split(',');
+                foreach (var idStr in item_ids) {
+                    ushort id;
+                    if (ushort.TryParse(idStr, out id) && id != 0) {
+                        Main.spawn_blacklisted_vehicles.Add(id);
+                    }
+                }
             }
         }
     }
