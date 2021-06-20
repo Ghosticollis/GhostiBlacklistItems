@@ -29,6 +29,7 @@ and that's it
 # extra:
 this module has extra features that could be very helpful for map designers. (if you are not map designer you could ignore this section).
 you could add this module to your local server that running your map, then you could use the following commands from console:
+
 (please note: when you planning to use this commands it is recomended to set "enable filtering" to "false" at the module config file)
 ```
 scan for item [item_id]
