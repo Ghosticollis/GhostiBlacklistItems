@@ -1,4 +1,14 @@
-# add data here in the following way:- items blacklisted from spawning: 10, 17, 122
+####################################################################################
 # lines start with the sign # gonna be ignored
+# add data here in the following way:-
+#   enable filtering: true
+#   items blacklisted from spawning: 10, 17, 122
+#   vehicles blacklisted from spawning: 10, 140
+#
+# if you want it empty (not filtering any item/vehicle) then use id 0, example:
+#   items blacklisted from spawning: 0
+###################################################################################
 
+enable filtering: true
 items blacklisted from spawning: 0
+vehicles blacklisted from spawning: 0
