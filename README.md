@@ -1,8 +1,9 @@
 # GhostiBlacklistItems
-Unturned blacklist items spawn
+Unturned blacklist items/vehicles spawn
 
-this module will prevent blacklisted items from spawning in your server.
+this module will prevent blacklisted items/vehicles from spawning in your server.
 for example, you could prevent Stealy Wheely from spawning, prevent raid gear or prevent stuff like drugs, alcohol ... etc
+also you could use to prevent specific vehicles from spawning.
 
 
 - please note:
