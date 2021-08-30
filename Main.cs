@@ -382,6 +382,7 @@ namespace GhostiBlacklistItems
             foreach (var zt in LevelZombies.tables) {
                 if (zt.lootID == tableID) {
                     mPrintLine("zombie table name:" + zt.name + " has the requested id:" + zt.lootID);
+                    mPrintLine("to fix this, open map editor, press on spawns then zombies then choose " + zt.name + " then change loot ID to a valid spawn table id! otherwise this zombie never drop loot!");
                 }
             }
 
@@ -393,7 +394,12 @@ namespace GhostiBlacklistItems
             for (ushort i = 0; i < ushort.MaxValue; i++) {
                 try {
                     if (isTableHasItem(i, itemID, bRecurssive)) {
-                        result += i.ToString() + ", ";
+                        string tableName = "";
+                        SpawnAsset spawnAsset = (SpawnAsset)Assets.find(EAssetType.SPAWN, i);
+                        if (spawnAsset != null) {
+                            tableName = "(" + spawnAsset.name + ")";
+                        }
+                        result += i.ToString() + tableName + ", ";
                     }
                 } catch (Exception e) {
                     if (e.Message != "wrong table id") {
