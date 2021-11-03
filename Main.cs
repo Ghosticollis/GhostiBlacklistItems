@@ -190,7 +190,19 @@ namespace GhostiBlacklistItems
         }
 
         void mOnCommandWindowInputted(string text, ref bool shouldExecuteCommand) {
-            if (text.StartsWith("scan for item ")) {
+            if (text.StartsWith("scan where item spawns ")) {
+                shouldExecuteCommand = false;
+                var a = text.Split(' ');
+                if (ushort.TryParse(a[a.Length - 1], out ushort id)) {
+                    scanWhereItemSpawns(id);
+                }
+            } else if (text.StartsWith("scan where vehicle spawns ")) {
+                shouldExecuteCommand = false;
+                var a = text.Split(' ');
+                if (ushort.TryParse(a[a.Length - 1], out ushort id)) {
+                    scanWhereVehicleSpawns(id);
+                }
+            } else if (text.StartsWith("scan for item ")) {
                 shouldExecuteCommand = false;
                 var a = text.Split(' ');
                 if (ushort.TryParse(a[a.Length - 1], out ushort id)) {
@@ -228,6 +240,8 @@ namespace GhostiBlacklistItems
                 //shouldExecuteCommand = false;
                 CommandWindow.Log("==============================================");
                 CommandWindow.Log("Blacklist Items Module Commands:");
+                CommandWindow.Log("  scan where item spawns [item_id]"); // in current map only
+                CommandWindow.Log("  scan where vehicle spawns [vehicle_id]"); // in current map only
                 CommandWindow.Log("  scan for item [item_id]");
                 CommandWindow.Log("  recursive scan for item [item_id]");
                 CommandWindow.Log("  scan for table [table_id]");
@@ -235,6 +249,129 @@ namespace GhostiBlacklistItems
                 CommandWindow.Log("  scan for empty tables");
                 CommandWindow.Log("  print spawn table items [table_id]");
                 CommandWindow.Log("==============================================");
+            }
+        }
+
+        public static void scanWhereVehicleSpawns(ushort vID) {
+            mPrintLine("searching where vehicle " + vID + " spawns at this map");
+            HashSet<string> spResult = new HashSet<string>();
+            foreach (var vsp in LevelVehicles.spawns) {
+                byte vehicleTableIndex = vsp.type;
+                if ((int)vehicleTableIndex < LevelVehicles.tables.Count) {
+                    var vt = LevelVehicles.tables[vehicleTableIndex];
+                    if(vt.tableID != 0) {
+                        if (isTableHasItem(vt.tableID, vID, true)) { // vehicles spawn tables assets are same with items! so this function will work here too
+                            spResult.Add("vehicle spawn points of type:" + vt.name + " has the requested id from:" + vt.tableID);
+                        }
+                    } else {
+                        foreach (var tr in vt.tiers) {
+                            foreach (var vSpawn in tr.table) {
+                                if (vSpawn.vehicle == vID) {
+                                    spResult.Add("vehicle spawn points of type: " + vt.name + " has the requested id from it's built-in table");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            foreach (string str in spResult) {
+                mPrintLine(str);
+            }
+            mPrintLine("searching done.");
+        }
+
+        public static void scanWhereItemSpawns(ushort itemID) {
+            mPrintLine("searching where item " + itemID + " drops at this map");
+            mPrintLine("note: the following loot drop sources are not included in the search: hordebeacons, fisher tool, Object Dropper, Object Rubble, vehicle destroy loot, arenaLoadout, NPCRandomItemReward, ItemConsumeableAsset, Resource tables");
+
+            mPrintLine("");
+            mPrintLine("searching spawn points ...");
+            HashSet<string> spResult = new HashSet<string>();
+            for (byte b = 0; b < Regions.WORLD_SIZE; b += 1) {
+                for (byte b2 = 0; b2 < Regions.WORLD_SIZE; b2 += 1) {
+                    for (int i = 0; i < LevelItems.spawns[(int)b, (int)b2].Count; i++) {
+                        ItemSpawnpoint itemSpawnpoint = LevelItems.spawns[(int)b, (int)b2][i];
+                        byte lootTableIndex = itemSpawnpoint.type;
+                        if ((int)lootTableIndex < LevelItems.tables.Count) {
+                            ItemTable it = LevelItems.tables[lootTableIndex];
+                            if (it.tableID != 0) {
+                                if (isTableHasItem(it.tableID, itemID, true)) {
+                                    spResult.Add("item spawn points of type:" + it.name + " has the requested id from:" + it.tableID);
+                                }
+                            } else {
+                                foreach (var tr in it.tiers) {
+                                    foreach (var itemSpawn in tr.table) {
+                                        if (itemSpawn.item == itemID) {
+                                            spResult.Add("item spawn points of type: " + it.name + " has the requested id from it's built in table");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            foreach(string str in spResult) {
+                mPrintLine(str);
+            }
+
+
+            mPrintLine("");
+            mPrintLine("searching zombie tables ...");
+            foreach (var z in LevelZombies.tables) {
+                if (z.lootID != 0) {
+                    if (isTableHasItem(z.lootID, itemID, true)) {
+                        mPrintLine("zombie name:" + z.name + " has the requested id from:" + z.lootID);
+                    }
+                } else if ((int)z.lootIndex < LevelItems.tables.Count) {
+                    ItemTable it = LevelItems.tables[z.lootIndex];
+                    if (it.tableID != 0) {
+                        if (isTableHasItem(it.tableID, itemID, true)) {
+                            mPrintLine("zombie name:" + z.name + " has the requested id from:" + it.tableID);
+                        }
+                    } else {
+                        foreach (var tr in it.tiers) {
+                            foreach (var itemSpawn in tr.table) {
+                                if(itemSpawn.item == itemID) {
+                                    mPrintLine("zombie name:" + z.name + " has the requested id from built in table index:" + z.lootIndex + " table name:" + it.name);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            mPrintLine("");
+            mPrintLine("searching animal tables ...");
+            foreach (var t in LevelAnimals.tables) {
+
+                foreach(var tr in t.tiers) {
+                    foreach (var animalSpawn in tr.table) {
+                        ;
+                        // searching animal loot drop tables
+                        AnimalAsset aa = Assets.find(EAssetType.ANIMAL, animalSpawn.animal) as AnimalAsset;
+                        if (aa != null) {
+                            if ( isTableHasItem(aa.rewardID, itemID, true)) {
+                                mPrintLine("Animal loot table id:" + aa.id + " name:" + aa.name + " reward id:" + aa.rewardID);
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            mPrintLine("");
+            mPrintLine("searching airdrop tables ...");
+            for (int i = 0; i < LevelNodes.nodes.Count; i++) {
+                Node node = LevelNodes.nodes[i];
+                if (node.type == ENodeType.AIRDROP) {
+                    AirdropNode airdropNode = (AirdropNode)node;
+                    if (isTableHasItem(airdropNode.id, itemID, true)) { // airdropNode.id is spawn table id
+                        mPrintLine("airdrop node at location:" + airdropNode.point + " table id:" + airdropNode.id);
+                    }
+                }
             }
         }
 
@@ -259,13 +396,13 @@ namespace GhostiBlacklistItems
                 }
             }
 
-            mPrintLine("");
-            mPrintLine("searching animal tables (which contains animals ids) ...");
-            foreach (var t in LevelAnimals.tables) {
-                if (t.tableID == tableID) {
-                    mPrintLine("Animal table: " + t.tableID + " name:" + t.name);
-                }
-            }
+            //mPrintLine("");
+            //mPrintLine("searching animal tables (which contains animals ids) ...");
+            //foreach (var t in LevelAnimals.tables) {
+            //    if (t.tableID == tableID) {
+            //        mPrintLine("Animal table: " + t.tableID + " name:" + t.name);
+            //    }
+            //}
 
             mPrintLine("");
             mPrintLine("searching animal loot drop tables ...");
@@ -369,19 +506,19 @@ namespace GhostiBlacklistItems
                 }
             }
 
-            mPrintLine("");
-            mPrintLine("searching Vehicle tables ...");
-            foreach(var v in LevelVehicles.tables) {
-                if(v.tableID == tableID) {
-                    mPrintLine("Vehicle table name:" + v.name + " has the requested id:" + v.tableID);
-                }
-            }
+            //mPrintLine("");
+            //mPrintLine("searching Vehicle tables ...");
+            //foreach(var v in LevelVehicles.tables) {
+            //    if(v.tableID == tableID) {
+            //        mPrintLine("Vehicle table name:" + v.name + " has the requested id:" + v.tableID);
+            //    }
+            //}
 
             mPrintLine("");
             mPrintLine("searching zombie tables ...");
             foreach (var zt in LevelZombies.tables) {
                 if (zt.lootID == tableID) {
-                    mPrintLine("zombie table name:" + zt.name + " has the requested id:" + zt.lootID);
+                    mPrintLine("zombie name:" + zt.name + " has the requested id:" + zt.lootID);
                     mPrintLine("to fix this, open map editor, press on spawns then zombies then choose " + zt.name + " then change loot ID to a valid spawn table id! otherwise this zombie never drop loot!");
                 }
             }
@@ -427,7 +564,7 @@ namespace GhostiBlacklistItems
             }
             return false;
         }
-
+        
         public static void printSpawnTableItems(ushort tableID) {
             SpawnAsset spawnAsset = (SpawnAsset)Assets.find(EAssetType.SPAWN, tableID);
             if (spawnAsset != null) {
