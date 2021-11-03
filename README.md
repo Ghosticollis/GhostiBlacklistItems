@@ -32,10 +32,10 @@ you could add this module to your local server that running your map, then you c
 
 (please note: when you planning to use this commands it is recomended to set "enable filtering" to "false" at the module config file)
 ```
-scan where item spawns [item_id]
-scan where vehicle spawns [vehicle_id]
-scan for item [item_id]
-recursive scan for item [item_id]
+search where item spawns [item_id]
+search where vehicle spawns [vehicle_id]
+scan spawntables for item [item_id]
+recursive scan spawntables for item [item_id]
 scan for table [table_id]
 print vehicle spawn tables
 scan for empty tables
