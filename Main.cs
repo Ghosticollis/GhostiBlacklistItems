@@ -190,25 +190,25 @@ namespace GhostiBlacklistItems
         }
 
         void mOnCommandWindowInputted(string text, ref bool shouldExecuteCommand) {
-            if (text.StartsWith("scan where item spawns ")) {
+            if (text.StartsWith("search where item spawns ")) {
                 shouldExecuteCommand = false;
                 var a = text.Split(' ');
                 if (ushort.TryParse(a[a.Length - 1], out ushort id)) {
                     scanWhereItemSpawns(id);
                 }
-            } else if (text.StartsWith("scan where vehicle spawns ")) {
+            } else if (text.StartsWith("search where vehicle spawns ")) {
                 shouldExecuteCommand = false;
                 var a = text.Split(' ');
                 if (ushort.TryParse(a[a.Length - 1], out ushort id)) {
                     scanWhereVehicleSpawns(id);
                 }
-            } else if (text.StartsWith("scan for item ")) {
+            } else if (text.StartsWith("scan spawntables for item ")) {
                 shouldExecuteCommand = false;
                 var a = text.Split(' ');
                 if (ushort.TryParse(a[a.Length - 1], out ushort id)) {
                     getSpawnTablesThatHasItem(id, false);
                 }
-            } else if (text.StartsWith("recursive scan for item ")) {
+            } else if (text.StartsWith("recursive scan spawntables for item ")) {
                 shouldExecuteCommand = false;
                 var a = text.Split(' ');
                 if (ushort.TryParse(a[a.Length - 1], out ushort id)) {
@@ -240,10 +240,10 @@ namespace GhostiBlacklistItems
                 //shouldExecuteCommand = false;
                 CommandWindow.Log("==============================================");
                 CommandWindow.Log("Blacklist Items Module Commands:");
-                CommandWindow.Log("  scan where item spawns [item_id]"); // in current map only
-                CommandWindow.Log("  scan where vehicle spawns [vehicle_id]"); // in current map only
-                CommandWindow.Log("  scan for item [item_id]");
-                CommandWindow.Log("  recursive scan for item [item_id]");
+                CommandWindow.Log("  search where item spawns [item_id]"); // in current map only
+                CommandWindow.Log("  search where vehicle spawns [vehicle_id]"); // in current map only
+                CommandWindow.Log("  scan spawntables for item [item_id]");
+                CommandWindow.Log("  recursive scan spawntables for item [item_id]");
                 CommandWindow.Log("  scan for table [table_id]");
                 CommandWindow.Log("  print vehicle spawn tables");
                 CommandWindow.Log("  scan for empty tables");
