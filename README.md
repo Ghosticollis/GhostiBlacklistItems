@@ -41,7 +41,7 @@ print vehicle spawn tables
 scan for empty tables
 print spawn table items [table_id]
 ```
-scan for item [item_id] - this command will print to you spawn tables that spawn the specified item
+scan spawntables for item [item_id] - this command will print to you spawn tables that spawn the specified item
 example to show the difference between normal and recursive:
 let mili_ST be a spawn table that only contains mili_clothes spawn table, and mili_guns spawn table.
 if u search specific gun using first command you will get: mili_guns
