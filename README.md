@@ -1,3 +1,7 @@
+# OUTDATED
+this code is since many years ago. many parts of it are outdated by now.
+also I was a beginner when I made it. maybe someday I will have the time to fix or redo it.
+
 # GhostiBlacklistItems
 Unturned blacklist items/vehicles spawn
 
